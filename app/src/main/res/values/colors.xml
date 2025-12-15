@@ -1,0 +1,16 @@
+<resources>
+    <color name="purple_900">#2A0146</color>
+    <color name="purple_700">#5B21B6</color>
+    <color name="purple_500">#7C3AED</color>
+    <color name="purple_300">#C4B5FD</color>
+    <color name="pink_500">#EC4899</color>
+    <color name="blue_500">#3B82F6</color>
+    <color name="surface_dark">#0B0B12</color>
+    <color name="surface_light">#FFFFFF</color>
+    <color name="text_primary">#111827</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="divider">#E5E7EB</color>
+    <color name="success">#16A34A</color>
+    <color name="warning">#F59E0B</color>
+    <color name="danger">#EF4444</color>
+</resources>

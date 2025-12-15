@@ -1,0 +1,98 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="140dp"
+        android:background="@drawable/header_gradient_purple"
+        android:orientation="vertical"
+        android:padding="18dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/ticket_title"
+            app:titleTextColor="@android:color/white"
+            app:navigationIcon="@android:drawable/ic_menu_revert"
+            app:navigationIconTint="@android:color/white"
+            android:background="@android:color/transparent" />
+        <TextView
+            android:id="@+id/confirmedTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You're confirmed"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="12dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/topBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:id="@+id/guestNameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_primary" />
+        <TextView
+            android:id="@+id/eventTitleTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Event"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="6dp" />
+        <ImageView
+            android:id="@+id/qrImageView"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/shape_outline"
+            android:padding="10dp" />
+        <TextView
+            android:id="@+id/tokenTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="token"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="14dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shareLinkButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/share"
+            app:cornerRadius="14dp"
+            android:layout_marginTop="14dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/copyTokenButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Copy token"
+            app:cornerRadius="14dp"
+            android:layout_marginTop="10dp"
+            app:backgroundTint="@color/purple_700" />
+        <TextView
+            android:id="@+id/checkinStatusTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Check-in status: not checked-in yet"
+            android:textColor="@color/text_secondary"
+            android:layout_marginTop="12dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

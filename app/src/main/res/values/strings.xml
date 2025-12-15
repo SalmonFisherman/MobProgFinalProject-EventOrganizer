@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">rusdihari</string>
+    <string name="dashboard_title">Admin Dashboard</string>
+    <string name="create_event_title">Create Event</string>
+    <string name="event_detail_title">Invitation</string>
+    <string name="ticket_title">Digital Ticket</string>
+    <string name="scanner_title">Scanner + Guest List</string>
+    <string name="search_hint">Search event…</string>
+    <string name="sort_label">Sort</string>
+    <string name="pick_cover">Pick Cover</string>
+    <string name="publish_event">Publish</string>
+    <string name="rsvp_title">RSVP</string>
+    <string name="rsvp_yes">Yes, I will attend</string>
+    <string name="rsvp_no">No, cannot attend</string>
+    <string name="menu_choice_label">Menu choice</string>
+    <string name="menu_regular">Regular</string>
+    <string name="menu_vegetarian">Vegetarian</string>
+    <string name="menu_halal">Halal</string>
+    <string name="share">Share</string>
+    <string name="open_ticket">Open Ticket</string>
+    <string name="scan_qr">Scan QR</string>
+    <string name="stats_total_invited">Total invited</string>
+    <string name="stats_rsvp_yes">RSVP yes</string>
+    <string name="stats_checked_in">Checked-in</string>
+</resources>
