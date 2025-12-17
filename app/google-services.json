@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1020617549314",
+    "project_id": "planora-project-80201",
+    "storage_bucket": "planora-project-80201.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020617549314:android:2a44b3eb0d1b3e9fa7e91b",
+        "android_client_info": {
+          "package_name": "com.ergi.rusdihari"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwfGg77tZm0qfeRciR8Fwt2gyGm4gy0zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1020617549314:android:280758b0c767ca52a7e91b",
+        "android_client_info": {
+          "package_name": "com.example.planora_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDwfGg77tZm0qfeRciR8Fwt2gyGm4gy0zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

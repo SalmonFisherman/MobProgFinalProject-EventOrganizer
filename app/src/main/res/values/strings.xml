@@ -22,4 +22,6 @@
     <string name="stats_total_invited">Total invited</string>
     <string name="stats_rsvp_yes">RSVP yes</string>
     <string name="stats_checked_in">Checked-in</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
