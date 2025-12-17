@@ -1,6 +1,7 @@
 package com.ergi.rusdihari;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -90,6 +91,19 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             });
 
+    private final ActivityResultLauncher<Intent> mapPickerLauncher =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    String address = result.getData().getStringExtra("ADDRESS_RESULT");
+                    // Kalau mau simpan lat/lng di database nanti bisa ambil dari sini juga:
+                    // double lat = result.getData().getDoubleExtra("LAT_RESULT", 0);
+
+                    if (address != null) {
+                        locationEditText.setText(address);
+                    }
+                }
+            });
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,6 +114,7 @@ public class CreateEventActivity extends AppCompatActivity {
         bindViews();
         setupToolbar();
         setupPickCover();
+        setupLocationPicker();
         setupDateAndTimePickers();
         setupPublish();
 
@@ -128,6 +143,17 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void setupPickCover() {
         pickCoverButton.setOnClickListener(v -> pickImageLauncher.launch("image/*"));
+    }
+
+    // Panggil ini di onCreate()
+    private void setupLocationPicker() {
+        locationEditText.setFocusable(false);
+        locationEditText.setClickable(true);
+
+        locationEditText.setOnClickListener(v -> {
+            Intent intent = new Intent(CreateEventActivity.this, LocationPickerActivity.class);
+            mapPickerLauncher.launch(intent);
+        });
     }
 
     private void setupDateAndTimePickers() {
