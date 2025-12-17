@@ -1,27 +1,42 @@
 package com.ergi.rusdihari;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ergi.rusdihari.R;
+import com.google.zxing.BarcodeFormat;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QRCodeActivity extends AppCompatActivity {
 
-    TextView tvEventName;
-    ImageView imgQrCode;
+    ImageView imgQRCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_qrcode);
 
-        tvEventName = findViewById(R.id.tvEventName);
-        imgQrCode = findViewById(R.id.imgQrCode);
+        imgQRCode = findViewById(R.id.imgQRCode);
 
-        String eventName = getIntent().getStringExtra("EVENT_NAME");
-        tvEventName.setText(eventName);
+        String eventCode = getIntent().getStringExtra("EVENT_CODE");
+        if (eventCode == null || eventCode.isEmpty()) {
+            eventCode = "RUSDHARI-123";
+        }
+
+        try {
+            BarcodeEncoder encoder = new BarcodeEncoder();
+            Bitmap bitmap = encoder.encodeBitmap(
+                    eventCode,
+                    BarcodeFormat.QR_CODE,
+                    600,
+                    600
+            );
+            imgQRCode.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

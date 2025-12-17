@@ -141,18 +141,26 @@ public class EventDetailActivity extends AppCompatActivity {
         guestRsvpContainer.setVisibility(isAdmin ? View.GONE : View.VISIBLE);
     }
     private void setupAdminActions() {
+
         openScannerButton.setOnClickListener(v -> {
             Intent i = new Intent(this, ScannerActivity.class);
             i.putExtra(ScannerActivity.EXTRA_EVENT_ID, eventId);
             startActivity(i);
         });
+
+        // 🔥 INI YANG DITAMBAH / DIGANTI
         shareInvitationButton.setOnClickListener(v -> {
-            String text = buildInvitationTextForSharing();
-            shareText(text);
+            Intent i = new Intent(this, QRCodeActivity.class);
+
+            // kirim data ke QR screen
+            i.putExtra("EVENT_NAME", event.title);
+            i.putExtra("EVENT_CODE", "EVENT_ID:" + eventId);
+
+            startActivity(i);
         });
     }
+
     private String buildInvitationTextForSharing() {
-        // No network: just share a text invitation. For real app, you’d share a web link.
         String when = pretty.format(new Date(event.datetimeMillis));
         String where = event.location != null ? event.location : "-";
         String title = event.title != null ? event.title : "Event";
@@ -223,7 +231,6 @@ public class EventDetailActivity extends AppCompatActivity {
     }
     @NonNull
     private String buildTicketLink(@NonNull String token) {
-        // Deep link requested: rusdihari://ticket?token=...
         return "rusdihari://ticket?token=" + Uri.encode(token);
     }
     private void shareText(@NonNull String text) {
@@ -238,11 +245,5 @@ public class EventDetailActivity extends AppCompatActivity {
         String s = et.getText().toString().trim();
         return s.length() == 0 ? null : s;
     }
-    /*
-     * Extra notes:
-     * - In a real-world invitation flow, guest would open a web link, RSVP remotely,
-     *   and ticket would be verifiable across devices.
-     * - Here, RSVP creates a local guest entry and token.
-     * - Admin scanner validates token against local SQLite.
-     */
+
 }
