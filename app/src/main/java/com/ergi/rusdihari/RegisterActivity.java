@@ -3,6 +3,7 @@ package com.ergi.rusdihari;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -52,6 +53,11 @@ public class RegisterActivity extends AppCompatActivity {
                     .addOnFailureListener(e ->
                             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show()
                     );
+        });
+
+        TextView tvLogin = findViewById(R.id.tvLogin);
+        tvLogin.setOnClickListener(v -> {
+            finish(); // go back to LoginActivity
         });
     }
 }

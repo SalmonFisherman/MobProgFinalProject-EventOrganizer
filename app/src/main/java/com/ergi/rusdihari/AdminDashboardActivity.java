@@ -41,6 +41,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private EventsAdapter adapter;
     private AppDatabase.EventSortMode currentSort = AppDatabase.EventSortMode.CREATED_DESC;
     private String currentQuery = "";
+
+    private TextView btnLogout;
     private final SimpleDateFormat prettyDateTime = new SimpleDateFormat("EEE, dd MMM yyyy • HH:mm", Locale.getDefault());
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +51,19 @@ public class AdminDashboardActivity extends AppCompatActivity {
         database = new AppDatabase(this);
         database.ensureSeedDataIfEmpty();
         bindViews();
+
+        btnLogout.setOnClickListener(v -> {
+            com.google.firebase.auth.FirebaseAuth.getInstance().signOut();
+
+            Intent intent = new Intent(AdminDashboardActivity.this, MainActivity.class);
+            intent.addFlags(
+                    Intent.FLAG_ACTIVITY_NEW_TASK |
+                            Intent.FLAG_ACTIVITY_CLEAR_TASK
+            );
+            startActivity(intent);
+            finish();
+        });
+
         setupToolbar();
         setupRecycler();      // pindahin ke atas
         setupSortSpinner();   // setelah adapter ready
@@ -69,7 +84,9 @@ public class AdminDashboardActivity extends AppCompatActivity {
         sortSpinner = findViewById(R.id.sortSpinner);
         eventsRecyclerView = findViewById(R.id.eventsRecyclerView);
         createFab = findViewById(R.id.createFab);
+        btnLogout = findViewById(R.id.btnLogout);
     }
+
     private void setupToolbar() {
         setSupportActionBar(toolbar);
         // No special menu here; search is in header field.
@@ -187,6 +204,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
             private final ImageView coverImageView;
             private final TextView titleTextView;
             private final TextView subtitleTextView;
+
             Holder(@NonNull View itemView) {
                 super(itemView);
                 coverImageView = itemView.findViewById(R.id.coverImageView);

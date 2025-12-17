@@ -33,6 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(this, AdminDashboardActivity.class));
+            finish();
+            return;
+        }
+
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString();
             String pass = etPassword.getText().toString();

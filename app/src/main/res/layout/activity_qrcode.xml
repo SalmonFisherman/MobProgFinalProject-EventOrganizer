@@ -64,6 +64,16 @@
                 android:scaleType="centerInside"/>
 
             <TextView
+                android:id="@+id/tvEventCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EVENT-CODE"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginTop="12dp"/>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Show this QR code at the entrance"
