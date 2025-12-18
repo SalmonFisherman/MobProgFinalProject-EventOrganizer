@@ -29,7 +29,7 @@ import java.util.UUID;
 public class AppDatabase extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "rusdihari_local.db";
-    public static final int DATABASE_VERSION = 2; // <- bump
+    public static final int DATABASE_VERSION = 3; // <- bump
 
     // Events table
     public static final String TABLE_EVENTS = "events";
@@ -37,6 +37,8 @@ public class AppDatabase extends SQLiteOpenHelper {
     public static final String COL_EVENT_TITLE = "title";
     public static final String COL_EVENT_DESCRIPTION = "description";
     public static final String COL_EVENT_LOCATION = "location";
+    public static final String COL_EVENT_LATITUDE = "latitude";
+    public static final String COL_EVENT_LONGITUDE = "longitude";
     public static final String COL_EVENT_DATETIME_MILLIS = "datetimeMillis";
     public static final String COL_EVENT_COVER_URI = "coverUri";
     public static final String COL_EVENT_CREATED_AT = "createdAt";
@@ -45,7 +47,7 @@ public class AppDatabase extends SQLiteOpenHelper {
     public static final String TABLE_GUESTS = "guests";
     public static final String COL_GUEST_ID = "id";
     public static final String COL_GUEST_EVENT_ID = "eventId";
-    public static final String COL_GUEST_NAME = "name"; // now nullable
+    public static final String COL_GUEST_NAME = "name";
     public static final String COL_GUEST_TOKEN = "token";
     public static final String COL_GUEST_RSVP_STATUS = "rsvpStatus";
     public static final String COL_GUEST_MENU_CHOICE = "menuChoice";
@@ -80,6 +82,8 @@ public class AppDatabase extends SQLiteOpenHelper {
                 + COL_EVENT_TITLE + " TEXT NOT NULL, "
                 + COL_EVENT_DESCRIPTION + " TEXT, "
                 + COL_EVENT_LOCATION + " TEXT, "
+                + COL_EVENT_LATITUDE + " REAL, "
+                + COL_EVENT_LONGITUDE + " REAL, "
                 + COL_EVENT_DATETIME_MILLIS + " INTEGER NOT NULL, "
                 + COL_EVENT_COVER_URI + " TEXT, "
                 + COL_EVENT_CREATED_AT + " INTEGER NOT NULL"
@@ -109,8 +113,14 @@ public class AppDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(@NonNull SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Migrate from v1 -> v2 : guests.name becomes nullable
-        if (oldVersion < 2) {
+        if (oldVersion < 3) {
+
+            try {
+                db.execSQL("ALTER TABLE " + TABLE_EVENTS + " ADD COLUMN " + COL_EVENT_LATITUDE + " REAL");
+                db.execSQL("ALTER TABLE " + TABLE_EVENTS + " ADD COLUMN " + COL_EVENT_LONGITUDE + " REAL");
+            } catch (Exception ignored) {
+            }
+
             migrateGuestsNameNullable(db);
         }
     }
@@ -193,6 +203,8 @@ public class AppDatabase extends SQLiteOpenHelper {
         e.title = "Rusdihari Launch Party";
         e.description = "A fun modern demo event for your first run.\n\nFeel free to delete or edit this later.";
         e.location = "Jakarta";
+        e.latitude = -6.175392;
+        e.longitude = 106.827153;
         e.datetimeMillis = demoMillis;
         e.coverUri = null;
         e.createdAt = now;
@@ -218,6 +230,8 @@ public class AppDatabase extends SQLiteOpenHelper {
         cv.put(COL_EVENT_TITLE, safeTrim(event.title));
         cv.put(COL_EVENT_DESCRIPTION, safeTrim(event.description));
         cv.put(COL_EVENT_LOCATION, safeTrim(event.location));
+        cv.put(COL_EVENT_LATITUDE, event.latitude);
+        cv.put(COL_EVENT_LONGITUDE, event.longitude);
         cv.put(COL_EVENT_DATETIME_MILLIS, event.datetimeMillis);
         cv.put(COL_EVENT_COVER_URI, event.coverUri != null ? event.coverUri : null);
         cv.put(COL_EVENT_CREATED_AT, event.createdAt > 0 ? event.createdAt : System.currentTimeMillis());
@@ -231,6 +245,8 @@ public class AppDatabase extends SQLiteOpenHelper {
         cv.put(COL_EVENT_TITLE, safeTrim(event.title));
         cv.put(COL_EVENT_DESCRIPTION, safeTrim(event.description));
         cv.put(COL_EVENT_LOCATION, safeTrim(event.location));
+        cv.put(COL_EVENT_LATITUDE, event.latitude);
+        cv.put(COL_EVENT_LONGITUDE, event.longitude);
         cv.put(COL_EVENT_DATETIME_MILLIS, event.datetimeMillis);
         cv.put(COL_EVENT_COVER_URI, event.coverUri != null ? event.coverUri : null);
         int rows = db.update(TABLE_EVENTS, cv, COL_EVENT_ID + "=?", new String[]{String.valueOf(event.id)});
@@ -403,6 +419,10 @@ public class AppDatabase extends SQLiteOpenHelper {
         e.title = c.getString(c.getColumnIndexOrThrow(COL_EVENT_TITLE));
         e.description = c.getString(c.getColumnIndexOrThrow(COL_EVENT_DESCRIPTION));
         e.location = c.getString(c.getColumnIndexOrThrow(COL_EVENT_LOCATION));
+        int idxLat = c.getColumnIndex(COL_EVENT_LATITUDE);
+        if (idxLat >= 0) e.latitude = c.getDouble(idxLat);
+        int idxLng = c.getColumnIndex(COL_EVENT_LONGITUDE);
+        if (idxLng >= 0) e.longitude = c.getDouble(idxLng);
         e.datetimeMillis = c.getLong(c.getColumnIndexOrThrow(COL_EVENT_DATETIME_MILLIS));
         e.coverUri = c.getString(c.getColumnIndexOrThrow(COL_EVENT_COVER_URI));
         e.createdAt = c.getLong(c.getColumnIndexOrThrow(COL_EVENT_CREATED_AT));
@@ -468,6 +488,8 @@ public class AppDatabase extends SQLiteOpenHelper {
         public String title;
         public String description;
         public String location;
+        public double latitude;
+        public double longitude;
         public long datetimeMillis;
         public String coverUri;
         public long createdAt;

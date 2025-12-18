@@ -1,117 +1,250 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F1F5F9"
-    android:padding="20dp">
+    android:background="#F8FAFC">
 
-    <!-- Material Toolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:title="Ticket Details"
-        android:elevation="4dp"
-        app:navigationIcon="@drawable/ic_back"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/confirmedTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="You're confirmed"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="#0F172A"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/ticketCard"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="24dp"
-        android:background="@drawable/bg_ticket_card"
-        app:layout_constraintTop_toBottomOf="@id/confirmedTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TextView
-            android:id="@+id/guestNameTextView"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guest Name"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#111827"/>
+            android:orientation="vertical"
+            android:paddingBottom="40dp">
 
-        <TextView
-            android:id="@+id/eventTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Event • Date"
-            android:textSize="14sp"
-            android:textColor="#6B7280"
-            android:layout_marginTop="4dp"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
 
-        <ImageView
-            android:id="@+id/qrImageView"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_marginTop="20dp"
-            android:scaleType="fitCenter"/>
+                <ImageView
+                    android:id="@+id/ivEventCover"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:background="#1E293B"
+                    android:src="@android:drawable/ic_menu_gallery"
+                    app:tint="#475569"/>
 
-        <TextView
-            android:id="@+id/tokenTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Token: XXXXX"
-            android:textSize="12sp"
-            android:textColor="#475569"
-            android:layout_marginTop="12dp"/>
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="16dp"
+                    android:src="@drawable/ic_back"
+                    android:background="@drawable/bg_back_button_circle"
+                    android:padding="12dp"
+                    app:tint="@android:color/white"
+                    android:contentDescription="Back" />
+            </FrameLayout>
 
-        <TextView
-            android:id="@+id/checkinStatusTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Check-in status: not checked-in yet"
-            android:textSize="13sp"
-            android:textColor="#0F766E"
-            android:layout_marginTop="8dp"/>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="-50dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="12dp"
+                app:cardBackgroundColor="@android:color/white">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp"
+                    android:gravity="center_horizontal">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/shareLinkButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Share Ticket"
-        android:textAllCaps="false"
-        android:layout_marginTop="20dp"
-        app:cornerRadius="14dp"
-        app:backgroundTint="#7C4DFF"
-        app:layout_constraintTop_toBottomOf="@id/ticketCard"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+                    <TextView
+                        android:id="@+id/tvEventTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Loading Event..."
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="#0F172A"
+                        android:textAlignment="center"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/copyTokenButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Copy Token"
-        android:textAllCaps="false"
-        android:layout_marginTop="12dp"
-        app:cornerRadius="14dp"
-        app:backgroundTint="#CBD5E1"
-        app:layout_constraintTop_toBottomOf="@id/shareLinkButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@android:drawable/ic_menu_my_calendar"
+                            app:tint="#64748B"/>
+                        <TextView
+                            android:id="@+id/tvEventDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Date &amp; Time"
+                            android:layout_marginStart="8dp"
+                            android:textColor="#64748B"
+                            android:textSize="17sp"/>
+                    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@android:drawable/ic_menu_mapmode"
+                            app:tint="#64748B"/>
+                        <TextView
+                            android:id="@+id/tvEventLocation"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Location"
+                            android:layout_marginStart="8dp"
+                            android:textColor="#64748B"
+                            android:textSize="17sp"/>
+                    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="250dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="4dp"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="#F1F5F9">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <fragment
+                                android:id="@+id/mapFragment"
+                                android:name="com.google.android.gms.maps.SupportMapFragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <View
+                                android:id="@+id/viewMapOverlay"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@android:color/transparent" />
+                        </FrameLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E2E8F0"
+                        android:layout_marginVertical="20dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TICKET HOLDER"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.1"
+                        android:textColor="#94A3B8"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tvGuestName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Guest Name"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#334155"
+                        android:layout_marginTop="2dp"/>
+
+                    <TextView
+                        android:id="@+id/tvCheckInStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Not checked-in yet"
+                        android:textColor="#EF4444"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="20dp"/>
+
+                    <ImageView
+                        android:id="@+id/ivQrCode"
+                        android:layout_width="220dp"
+                        android:layout_height="220dp"
+                        android:scaleType="fitCenter"
+                        android:background="#F8FAFC"
+                        android:padding="8dp"/>
+
+                    <TextView
+                        android:id="@+id/tvToken"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="TOKEN: XXXXXX"
+                        android:layout_marginTop="12dp"
+                        android:letterSpacing="0.1"
+                        android:textStyle="bold"
+                        android:fontFamily="monospace"
+                        android:textColor="#64748B"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About Event"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="32dp"
+                android:textColor="#0F172A"/>
+
+            <TextView
+                android:id="@+id/tvEventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="24dp"
+                android:layout_marginTop="12dp"
+                android:text="No description available."
+                android:lineSpacingExtra="6dp"
+                android:textColor="#475569"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="40dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnShare"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:text="Share Ticket"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp"
+                    app:backgroundTint="#7C3AED"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCopyToken"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Copy Token"
+                    android:textColor="#475569"
+                    app:cornerRadius="16dp"
+                    app:backgroundTint="#E2E8F0"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

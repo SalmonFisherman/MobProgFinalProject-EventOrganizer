@@ -70,6 +70,9 @@ public class CreateEventActivity extends AppCompatActivity {
     private Integer selectedHour = null;
     private Integer selectedMinute = null;
 
+    private Double selectedLat = null;
+    private Double selectedLng = null;
+
     private final SimpleDateFormat dateFormat =
             new SimpleDateFormat("EEE, dd MMM yyyy", Locale.getDefault());
 
@@ -95,12 +98,13 @@ public class CreateEventActivity extends AppCompatActivity {
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     String address = result.getData().getStringExtra("ADDRESS_RESULT");
-                    // Kalau mau simpan lat/lng di database nanti bisa ambil dari sini juga:
-                    // double lat = result.getData().getDoubleExtra("LAT_RESULT", 0);
 
                     if (address != null) {
                         locationEditText.setText(address);
                     }
+
+                    selectedLat = result.getData().getDoubleExtra("LAT_RESULT", 0.0);
+                    selectedLng = result.getData().getDoubleExtra("LNG_RESULT", 0.0);
                 }
             });
 
@@ -242,6 +246,8 @@ public class CreateEventActivity extends AppCompatActivity {
         e.title = textOf(titleEditText);
         e.description = textOf(descriptionEditText);
         e.location = textOf(locationEditText);
+        if (selectedLat != null) e.latitude = selectedLat;
+        if (selectedLng != null) e.longitude = selectedLng;
         e.coverUri = (selectedCoverUri != null) ? selectedCoverUri.toString() : null;
         e.createdAt = System.currentTimeMillis();
         e.datetimeMillis = buildDateTimeMillis();
