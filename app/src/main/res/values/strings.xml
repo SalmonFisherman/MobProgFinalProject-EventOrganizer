@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">rusdihari</string>
+    <string name="app_name">Planora</string>
     <string name="dashboard_title">Admin Dashboard</string>
     <string name="create_event_title">Create Event</string>
     <string name="event_detail_title">Invitation</string>
