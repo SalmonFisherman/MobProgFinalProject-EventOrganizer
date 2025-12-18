@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -42,7 +43,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
     private AppDatabase.EventSortMode currentSort = AppDatabase.EventSortMode.CREATED_DESC;
     private String currentQuery = "";
 
-    private TextView btnLogout;
+    private LinearLayout btnLogout;
     private final SimpleDateFormat prettyDateTime = new SimpleDateFormat("EEE, dd MMM yyyy • HH:mm", Locale.getDefault());
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

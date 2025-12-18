@@ -23,7 +23,8 @@
         app:navigationIconTint="@android:color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:paddingTop="15dp"/>
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
