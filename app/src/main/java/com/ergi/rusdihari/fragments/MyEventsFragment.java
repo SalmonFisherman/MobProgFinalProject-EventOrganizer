@@ -1,65 +1,92 @@
 package com.ergi.rusdihari.fragments;
 
-import com.ergi.rusdihari.QRCodeActivity;
-import com.ergi.rusdihari.models.Event;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ergi.rusdihari.AppDatabase;
 import com.ergi.rusdihari.R;
-import com.ergi.rusdihari.adapter.EventAdapter;
-import com.ergi.rusdihari.utils.EventStorage;
+import com.ergi.rusdihari.TicketActivity;
+import com.ergi.rusdihari.adapter.MyTicketsAdapter;
+import com.ergi.rusdihari.utils.TicketStorage;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class MyEventsFragment extends Fragment {
 
-    private RecyclerView eventsRecyclerView;
+    private AppDatabase database;
+
+    private RecyclerView ticketsRecyclerView;
     private TextView noEventsText;
-    private EventAdapter adapter;
-    private ArrayList<Event> eventList = new ArrayList<>(); // Your list of events
+
+    private MyTicketsAdapter adapter;
+    private final List<MyTicketsAdapter.TicketRow> rows = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_events, container, false);
 
-        eventsRecyclerView = view.findViewById(R.id.events_recycler_view);
+        database = new AppDatabase(requireContext());
+
+        ticketsRecyclerView = view.findViewById(R.id.events_recycler_view);
         noEventsText = view.findViewById(R.id.no_events_text);
 
-        eventsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ticketsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // TODO: Replace this with actual data fetching from a database or API
-        loadEvents(); // We'll simulate loading events for now
+        adapter = new MyTicketsAdapter(rows, row -> {
+            Intent i = new Intent(getContext(), TicketActivity.class);
+            i.putExtra(TicketActivity.EXTRA_TOKEN, row.token);
+            startActivity(i);
+        });
 
-        if (eventList.isEmpty()) {
-            // Show "No Events" text and hide the RecyclerView
-            noEventsText.setVisibility(View.VISIBLE);
-            eventsRecyclerView.setVisibility(View.GONE);
-        } else {
-            // Show the RecyclerView and hide the "No Events" text
-            noEventsText.setVisibility(View.GONE);
-            eventsRecyclerView.setVisibility(View.VISIBLE);
-            adapter = new EventAdapter(eventList, event -> {
-                Intent intent = new Intent(getContext(), QRCodeActivity.class);
-                intent.putExtra("EVENT_NAME", event.getEventName());
-                startActivity(intent);
-            });
-
-            eventsRecyclerView.setAdapter(adapter);
-        }
+        ticketsRecyclerView.setAdapter(adapter);
 
         return view;
     }
 
-    private void loadEvents() {
-        eventList.clear();
-        eventList.addAll(EventStorage.getEvents(requireContext()));
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadTickets();
+    }
+
+    private void loadTickets() {
+        rows.clear();
+
+        Set<String> tokens = TicketStorage.getTokens(requireContext());
+        for (String token : tokens) {
+            AppDatabase.TicketBundle bundle = database.getTicketBundleByToken(token);
+            if (bundle == null || bundle.event == null || bundle.guest == null) continue;
+
+            MyTicketsAdapter.TicketRow r = new MyTicketsAdapter.TicketRow();
+            r.token = token;
+            r.eventTitle = bundle.event.title != null ? bundle.event.title : "Event";
+            r.eventWhenMillis = bundle.event.datetimeMillis;
+            r.checkedIn = bundle.guest.isCheckedIn();
+            r.guestHasName = bundle.guest.hasName();
+
+            rows.add(r);
+        }
+
+        if (rows.isEmpty()) {
+            noEventsText.setVisibility(View.VISIBLE);
+            ticketsRecyclerView.setVisibility(View.GONE);
+        } else {
+            noEventsText.setVisibility(View.GONE);
+            ticketsRecyclerView.setVisibility(View.VISIBLE);
+        }
+
+        adapter.notifyDataSetChanged();
     }
 }

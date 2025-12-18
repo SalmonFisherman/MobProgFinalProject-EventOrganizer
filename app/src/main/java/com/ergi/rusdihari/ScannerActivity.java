@@ -206,8 +206,48 @@ public class ScannerActivity extends AppCompatActivity {
             return;
         }
 
+        // NEW: admin must input guest name if empty
+        if (!guest.hasName()) {
+            promptAdminForGuestNameThenCheckin(token, guest);
+            return;
+        }
+
         long now = System.currentTimeMillis();
         doCheckInWithBestEffortLocation(token, guest, now);
+    }
+
+    private void promptAdminForGuestNameThenCheckin(@NonNull String token, @NonNull AppDatabase.Guest guest) {
+        final android.widget.EditText input = new android.widget.EditText(this);
+        input.setHint("Enter guest name");
+        input.setSingleLine(true);
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Guest name required")
+                .setMessage("This ticket has no name yet. Please enter guest name to continue check-in.")
+                .setView(input)
+                .setPositiveButton("Save & Check-in", (dialog, which) -> {
+                    String name = input.getText() != null ? input.getText().toString().trim() : "";
+                    if (name.isEmpty()) {
+                        Snackbar.make(scanButton, "Name cannot be empty.", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    boolean ok = database.updateGuestNameByToken(token, name);
+                    if (!ok) {
+                        Snackbar.make(scanButton, "Failed to save name.", Snackbar.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    // refresh guest object for UI message consistency
+                    guest.name = name;
+
+                    long now = System.currentTimeMillis();
+                    doCheckInWithBestEffortLocation(token, guest, now);
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                    Snackbar.make(scanButton, "Cancelled. Name not saved.", Snackbar.LENGTH_SHORT).show();
+                })
+                .show();
     }
 
     @Nullable
